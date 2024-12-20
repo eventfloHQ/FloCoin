@@ -26,7 +26,7 @@ contract FloCoin is ERC20Upgradeable, ERC20PermitUpgradeable, UUPSUpgradeable, O
         __Ownable_init(msg.sender);
 
         __ERC20Permit_init("FloCoin");
-        __ERC20_init("floCoin", "FLOCOIN");
+        __ERC20_init("FloCoin", "FLOCOIN");
 
         _mint(to_, totalSupply_);
     }
