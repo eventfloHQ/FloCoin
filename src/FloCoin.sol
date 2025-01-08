@@ -8,6 +8,19 @@ import {ERC20PermitUpgradeable} from "@openzeppelin/contracts-upgradeable/token/
 
 contract FloCoin is ERC20Upgradeable, ERC20PermitUpgradeable, UUPSUpgradeable, OwnableUpgradeable {
     // ••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
+    // Constants                                                  •
+    // ••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
+
+    uint256 public constant TOTAL_SUPPLY = 15_000_000 * 10 ** 18;
+
+    // ••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
+    // Custom Errors                                              •
+    // ••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
+
+    error InvalidAddress();
+    error TotalSupplyExceeded();
+
+    // ••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
     // Base Functions                                             •
     // ••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 
@@ -19,16 +32,29 @@ contract FloCoin is ERC20Upgradeable, ERC20PermitUpgradeable, UUPSUpgradeable, O
     /**
      * @dev init metadata
      *
-     * @param totalSupply_ total supply of flocoin
+     * @param to_ address to mint
+     * @param amount_ amount to mint
      */
-    function initialize(address to_, uint256 totalSupply_) public initializer {
+    function initialize(address to_, uint256 amount_) public initializer {
         __UUPSUpgradeable_init();
         __Ownable_init(msg.sender);
 
         __ERC20Permit_init("FloCoin");
         __ERC20_init("FloCoin", "FLOCO");
 
-        _mint(to_, totalSupply_);
+        _mint(to_, amount_);
+    }
+
+    // ••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
+    // External Functions                                         •
+    // ••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
+
+    function mint(address to_, uint256 amount_) external onlyOwner {
+        if (to_ == address(0)) revert InvalidAddress();
+
+        if (totalSupply() + amount_ > TOTAL_SUPPLY) revert TotalSupplyExceeded();
+
+        _mint(to_, amount_);
     }
 
     // ••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
