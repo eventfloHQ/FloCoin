@@ -2,9 +2,9 @@
 pragma solidity ^0.8.13;
 
 import {VmSafe} from "forge-std/src/Vm.sol";
-import {FloCoin} from "../src/FloCoin.sol";
+import {FloCoin} from "../src/coin/FloCoin.sol";
 import {SigUtil} from "./internal/SigUtil.sol";
-import {FloCoinProxy} from "../src/FloCoinProxy.sol";
+import {FloCoinProxy} from "../src/coin/FloCoinProxy.sol";
 import {Test, console} from "forge-std/src/Test.sol";
 import {UpgradeFloCoin} from "./internal/UpgradeFloCoin.sol";
 import {IERC20Permit} from "@openzeppelin/contracts/token/ERC20/extensions/IERC20Permit.sol";

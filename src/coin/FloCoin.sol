@@ -1,14 +1,28 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.13;
+pragma solidity 0.8.28;
 
 import {NoncesUpgradeable} from "@openzeppelin/contracts-upgradeable/utils/NoncesUpgradeable.sol";
 import {UUPSUpgradeable} from "@openzeppelin/contracts-upgradeable/proxy/utils/UUPSUpgradeable.sol";
 import {OwnableUpgradeable} from "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
 import {ERC20Upgradeable} from "@openzeppelin/contracts-upgradeable/token/ERC20/ERC20Upgradeable.sol";
+import {VotesUpgradeable} from "@openzeppelin/contracts-upgradeable/governance/utils/VotesUpgradeable.sol";
 import {ERC20VotesUpgradeable} from "@openzeppelin/contracts-upgradeable/token/ERC20/extensions/ERC20VotesUpgradeable.sol";
 import {ERC20PermitUpgradeable} from "@openzeppelin/contracts-upgradeable/token/ERC20/extensions/ERC20PermitUpgradeable.sol";
 
 contract FloCoin is ERC20Upgradeable, ERC20PermitUpgradeable, ERC20VotesUpgradeable, UUPSUpgradeable, OwnableUpgradeable {
+    // ••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
+    // Constants                                                  •
+    // ••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
+
+    uint256 public constant MAX_SUPPLY = 15_000_000 * 10 ** 18;
+
+    // ••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
+    // Custom Errors                                              •
+    // ••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
+
+    error InvalidAddress();
+    error TotalSupplyExceeded();
+
     // ••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
     // Base Functions                                             •
     // ••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
@@ -28,7 +42,7 @@ contract FloCoin is ERC20Upgradeable, ERC20PermitUpgradeable, ERC20VotesUpgradea
         __Ownable_init(msg.sender);
 
         __ERC20Permit_init("FloCoin");
-        __ERC20_init("FloCoin", "FLOCOIN");
+        __ERC20_init("FloCoin", "FLOCO");
 
         _mint(to_, totalSupply_);
     }
@@ -44,6 +58,31 @@ contract FloCoin is ERC20Upgradeable, ERC20PermitUpgradeable, ERC20VotesUpgradea
      */
     function nonces(address owner) public view virtual override(ERC20PermitUpgradeable, NoncesUpgradeable) returns (uint256) {
         return super.nonces(owner);
+    }
+
+    // ••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
+    // External Functions                                         •
+    // ••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
+
+    function mint(address to_, uint256 amount_) external onlyOwner {
+        if (to_ == address(0)) revert InvalidAddress();
+
+        if (totalSupply() + amount_ > MAX_SUPPLY) revert TotalSupplyExceeded();
+
+        _mint(to_, amount_);
+    }
+
+    // ••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
+    // Vote Override Functions                                    •
+    // ••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
+
+    function clock() public view virtual override(VotesUpgradeable) returns (uint48) {
+        return uint48(block.timestamp);
+    }
+
+    // slither-disable-next-line naming-convention
+    function CLOCK_MODE() public view virtual override(VotesUpgradeable) returns (string memory) {
+        return "mode=timestamp";
     }
 
     // ••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
