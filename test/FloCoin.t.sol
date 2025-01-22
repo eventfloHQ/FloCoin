@@ -21,6 +21,8 @@ contract FloCoinTest is Test {
     // Vars                                                       •
     // ••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 
+    address[] public to;
+    uint256[] public amount;
     FloCoin public flocoin;
     SigUtil public sigUtil;
     FloCoinProxy public flocoinProxy;
@@ -35,7 +37,12 @@ contract FloCoinTest is Test {
         vm.deal(david.addr, 1 ether);
         vm.deal(alice.addr, 1 ether);
 
-        bytes memory data_ = abi.encodeWithSelector(FloCoin.initialize.selector, david.addr, TOTAL_SUPPLY);
+        to.push(david.addr);
+        to.push(alice.addr);
+        amount.push(500_000 * 10 ** 18);
+        amount.push(10_000_000 * 10 ** 18);
+
+        bytes memory data_ = abi.encodeWithSelector(FloCoin.initialize.selector, david.addr, to, amount);
 
         vm.startPrank(david.addr);
 
@@ -51,7 +58,7 @@ contract FloCoinTest is Test {
     // ••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 
     function test_initialize() public view {
-        assertEq(FloCoin(address(flocoinProxy)).balanceOf(david.addr), TOTAL_SUPPLY);
+        assertEq(FloCoin(address(flocoinProxy)).balanceOf(david.addr), 500_000 * 10 ** 18);
     }
 
     function test_permit() public {

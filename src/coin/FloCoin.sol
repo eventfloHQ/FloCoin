@@ -35,16 +35,20 @@ contract FloCoin is ERC20Upgradeable, ERC20PermitUpgradeable, ERC20VotesUpgradea
     /**
      * @dev init metadata
      *
-     * @param totalSupply_ total supply of flocoin
+     * @param owner_ owner of the contract
+     * @param to_ address to mint the tokens to
+     * @param amount_ amount of tokens to mint
      */
-    function initialize(address to_, uint256 totalSupply_) public initializer {
+    function initialize(address owner_, address[] calldata to_, uint256[] calldata amount_) public initializer {
         __UUPSUpgradeable_init();
-        __Ownable_init(msg.sender);
+        __Ownable_init(owner_);
 
         __ERC20Permit_init("FloCoin");
         __ERC20_init("FloCoin", "FLOCO");
 
-        _mint(to_, totalSupply_);
+        for (uint256 i = 0; i < to_.length; i++) {
+            _mint(to_[i], amount_[i]);
+        }
     }
 
     // ••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••

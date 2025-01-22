@@ -35,6 +35,8 @@ contract GovTest is Test {
     // Vars                                                       •
     // ••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 
+    address[] public to;
+    uint256[] public amount;
     FloCoin public token;
     FloCoinProxy public tokenProxy;
     FloCoinGovernor public governor;
@@ -48,7 +50,10 @@ contract GovTest is Test {
     function setUp() public {
         vm.deal(david.addr, 10 ether);
 
-        bytes memory data_ = abi.encodeWithSelector(FloCoin.initialize.selector, david.addr, TOKEN_SUPPLY);
+        to.push(david.addr);
+        amount.push(500_000 * 10 ** 18);
+
+        bytes memory data_ = abi.encodeWithSelector(FloCoin.initialize.selector, david.addr, to, amount);
 
         vm.startPrank(david.addr);
         token = new FloCoin();

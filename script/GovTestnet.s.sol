@@ -12,6 +12,8 @@ contract GovTestnetScript is Script {
     // Coin Params                                               •
     // ••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 
+    address[] public to;
+    uint256[] public amount;
     uint256 public constant TOTAL_SUPPLY = 5_000_000 * 10 ** 18;
 
     // ••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
@@ -33,7 +35,9 @@ contract GovTestnetScript is Script {
         vm.stopBroadcast();
 
         vm.startBroadcast();
-        bytes memory data_ = abi.encodeWithSelector(FloCoin.initialize.selector, msg.sender, TOTAL_SUPPLY);
+        to.push(msg.sender);
+        amount.push(TOTAL_SUPPLY);
+        bytes memory data_ = abi.encodeWithSelector(FloCoin.initialize.selector, msg.sender, to, amount);
         FloCoinProxy testcoinProxy = new FloCoinProxy(address(testcoin), data_);
         vm.stopBroadcast();
 
