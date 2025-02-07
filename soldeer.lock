@@ -13,6 +13,12 @@ checksum = "87854223d14941d6fda3d78d900217e79e25755ea5bc48beca035766fa6a4e7e"
 integrity = "826fb621339dcee4261f848b283ec86364743d3c289d61f621747d95e315215a"
 
 [[dependencies]]
+name = "contract-kits"
+version = "0.0.1"
+git = "git@github.com:Uranuslab/contract-kits.git"
+rev = "f8483d7c31b8ea073b601636bcb55a28a5725fa1"
+
+[[dependencies]]
 name = "forge-std"
 version = "1.9.4"
 url = "https://soldeer-revisions.s3.amazonaws.com/forge-std/1_9_4_25-10-2024_14:36:59_forge-std-1.9.zip"

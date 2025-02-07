@@ -62,15 +62,16 @@ contract FloCoinTest is Test {
     }
 
     function test_permit() public {
+        uint256 nonce = block.timestamp;
         uint256 deadline_ = block.timestamp + 1 days;
 
-        bytes32 typedHash = sigUtil.getTypedHash(david.addr, alice.addr, PREMIT_VALUE, flocoin.nonces(david.addr), deadline_);
+        bytes32 typedHash = sigUtil.getTypedHash(david.addr, alice.addr, PREMIT_VALUE, nonce, deadline_);
 
         (uint8 v, bytes32 r, bytes32 s) = vm.sign(david, typedHash);
 
         vm.startPrank(alice.addr);
 
-        FloCoin(address(flocoinProxy)).permit(david.addr, alice.addr, PREMIT_VALUE, deadline_, v, r, s);
+        FloCoin(address(flocoinProxy)).permit(david.addr, alice.addr, PREMIT_VALUE, nonce, deadline_, v, r, s);
 
         assertEq(FloCoin(address(flocoinProxy)).allowance(david.addr, alice.addr), PREMIT_VALUE);
 

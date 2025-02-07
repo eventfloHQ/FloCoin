@@ -1,13 +1,12 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.28;
 
-import {NoncesUpgradeable} from "@openzeppelin/contracts-upgradeable/utils/NoncesUpgradeable.sol";
+import {ERC20PermitUpgradeable} from "contract-kits/token/ERC20PermitUpgradeable.sol";
 import {UUPSUpgradeable} from "@openzeppelin/contracts-upgradeable/proxy/utils/UUPSUpgradeable.sol";
 import {OwnableUpgradeable} from "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
 import {ERC20Upgradeable} from "@openzeppelin/contracts-upgradeable/token/ERC20/ERC20Upgradeable.sol";
 import {VotesUpgradeable} from "@openzeppelin/contracts-upgradeable/governance/utils/VotesUpgradeable.sol";
 import {ERC20VotesUpgradeable} from "@openzeppelin/contracts-upgradeable/token/ERC20/extensions/ERC20VotesUpgradeable.sol";
-import {ERC20PermitUpgradeable} from "@openzeppelin/contracts-upgradeable/token/ERC20/extensions/ERC20PermitUpgradeable.sol";
 
 contract FloCoin is ERC20Upgradeable, ERC20PermitUpgradeable, ERC20VotesUpgradeable, UUPSUpgradeable, OwnableUpgradeable {
     // ••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
@@ -49,19 +48,6 @@ contract FloCoin is ERC20Upgradeable, ERC20PermitUpgradeable, ERC20VotesUpgradea
         for (uint256 i = 0; i < to_.length; i++) {
             _mint(to_[i], amount_[i]);
         }
-    }
-
-    // ••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-    // Public Functions                                           •
-    // ••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-
-    /**
-     * @dev override nonces function to use nonces from NoncesUpgradeable
-     *
-     * @param owner address of the owner
-     */
-    function nonces(address owner) public view virtual override(ERC20PermitUpgradeable, NoncesUpgradeable) returns (uint256) {
-        return super.nonces(owner);
     }
 
     // ••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
