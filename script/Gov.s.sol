@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.13;
 
-import {Script, console} from "forge-std/src/Script.sol";
+import {Script, console} from "forge-std/Script.sol";
 
 import {FloCoin} from "../src/coin/FloCoin.sol";
 import {FloCoinGovernor} from "../src/governor/FloCoinGovernor.sol";

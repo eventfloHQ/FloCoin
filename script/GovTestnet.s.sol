@@ -1,11 +1,11 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.13;
 
+import {Script, console} from "forge-std/Script.sol";
+
 import {FloCoin} from "../src/coin/FloCoin.sol";
 import {FloCoinProxy} from "../src/coin/FloCoinProxy.sol";
 import {FloCoinGovernor} from "../src/governor/FloCoinGovernor.sol";
-
-import {Script, console} from "forge-std/src/Script.sol";
 
 contract GovTestnetScript is Script {
     // ••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
@@ -45,7 +45,8 @@ contract GovTestnetScript is Script {
 
         // deploy governor
         vm.startBroadcast();
-        FloCoinGovernor governor = new FloCoinGovernor(address(testcoinProxy), VOTE_DELAY, VOTE_PERIOD, PROPOSAL_THRESHOLD, QUORUM_NUMERATOR, VOTE_THRESHOLD);
+        FloCoinGovernor governor =
+            new FloCoinGovernor(address(testcoinProxy), VOTE_DELAY, VOTE_PERIOD, PROPOSAL_THRESHOLD, QUORUM_NUMERATOR, VOTE_THRESHOLD);
         vm.stopBroadcast();
 
         console.log("governor address:", address(governor));
