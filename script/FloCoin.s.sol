@@ -10,7 +10,6 @@ contract FloCoinScript is Script {
     // Constants                                                  •
     // ••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 
-    address public constant TO = 0x0000000000000000000000000000000000000000;
     uint256 public constant TOTAL_SUPPLY = 15_000_000 * 10 ** 18;
 
     // ••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••

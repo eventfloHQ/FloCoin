@@ -12,4 +12,4 @@ bsc-testnet = { key = "${SCAN_KEY_BSC}", url = "${VERIFIER_BSC_TESTNET}" }
 forge-std = "1.9.4"
 "@openzeppelin-contracts" = "5.1.0"
 "@openzeppelin-contracts-upgradeable" = "5.1.0"
-contract-kits = { version = "0.0.1", git = "git@github.com:Uranuslab/contract-kits.git", rev = "b5314db875bcc2688e58a75d42246f40d5e3d2c4" }
+contract-kits = { version = "0.0.1", git = "git@github.com:Uranuslab/contract-kits.git", rev = "d058af2398d08dffbb273933c97e45f6becd0260" }
