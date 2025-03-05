@@ -16,7 +16,7 @@ integrity = "826fb621339dcee4261f848b283ec86364743d3c289d61f621747d95e315215a"
 name = "contract-kits"
 version = "0.0.1"
 git = "git@github.com:Uranuslab/contract-kits.git"
-rev = "d058af2398d08dffbb273933c97e45f6becd0260"
+rev = "9d7f2f9867906bf042afdea9c94a151a7dd91897"
 
 [[dependencies]]
 name = "forge-std"
