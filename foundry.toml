@@ -3,11 +3,6 @@ src = "src"
 out = "out"
 libs = ["dependencies"]
 
-[etherscan]
-sepolia = { key = "${SCAN_KEY_ETH}", url = "${VERIFIER_ETH_SEPOLIA}" }
-bsc = { key = "${SCAN_KEY_BSC}", url = "${VERIFIER_BSC}" }
-bsc-testnet = { key = "${SCAN_KEY_BSC}", url = "${VERIFIER_BSC_TESTNET}" }
-
 [dependencies]
 forge-std = "1.9.4"
 "@openzeppelin-contracts" = "5.1.0"
