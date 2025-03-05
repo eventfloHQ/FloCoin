@@ -2,10 +2,12 @@
 pragma solidity ^0.8.13;
 
 import {FloCoin} from "../src/coin/FloCoin.sol";
-import {Script, console} from "forge-std/Script.sol";
+
 import {FloCoinProxy} from "../src/coin/FloCoinProxy.sol";
+import {Script, console} from "forge-std/Script.sol";
 
 contract FloCoinScript is Script {
+
     // ••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
     // Constants                                                  •
     // ••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
@@ -36,4 +38,5 @@ contract FloCoinScript is Script {
 
         console.log("flocoinProxy:", address(flocoinProxy));
     }
+
 }

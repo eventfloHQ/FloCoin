@@ -4,6 +4,7 @@ pragma solidity 0.8.28;
 import {GovernorSettings} from "@openzeppelin/contracts/governance/extensions/GovernorSettings.sol";
 
 abstract contract FloCoinGovernorSettings is GovernorSettings {
+
     // ••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
     // Vars                                                       •
     // ••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
@@ -29,4 +30,5 @@ abstract contract FloCoinGovernorSettings is GovernorSettings {
     function voteThreshold() public view virtual returns (uint256) {
         return _voteThreshold;
     }
+
 }

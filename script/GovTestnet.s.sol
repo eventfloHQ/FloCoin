@@ -8,6 +8,7 @@ import {FloCoinProxy} from "../src/coin/FloCoinProxy.sol";
 import {FloCoinGovernor} from "../src/governor/FloCoinGovernor.sol";
 
 contract GovTestnetScript is Script {
+
     // ••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
     // Coin Params                                               •
     // ••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
@@ -51,4 +52,5 @@ contract GovTestnetScript is Script {
 
         console.log("governor address:", address(governor));
     }
+
 }

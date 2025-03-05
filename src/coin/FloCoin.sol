@@ -1,14 +1,16 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.28;
 
-import {ERC20PermitUpgradeable} from "contract-kits/token/ERC20PermitUpgradeable.sol";
-import {UUPSUpgradeable} from "@openzeppelin/contracts-upgradeable/proxy/utils/UUPSUpgradeable.sol";
 import {OwnableUpgradeable} from "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
-import {ERC20Upgradeable} from "@openzeppelin/contracts-upgradeable/token/ERC20/ERC20Upgradeable.sol";
+
 import {VotesUpgradeable} from "@openzeppelin/contracts-upgradeable/governance/utils/VotesUpgradeable.sol";
+import {UUPSUpgradeable} from "@openzeppelin/contracts-upgradeable/proxy/utils/UUPSUpgradeable.sol";
+import {ERC20Upgradeable} from "@openzeppelin/contracts-upgradeable/token/ERC20/ERC20Upgradeable.sol";
 import {ERC20VotesUpgradeable} from "@openzeppelin/contracts-upgradeable/token/ERC20/extensions/ERC20VotesUpgradeable.sol";
+import {ERC20PermitUpgradeable} from "contract-kits/token/ERC20PermitUpgradeable.sol";
 
 contract FloCoin is ERC20Upgradeable, ERC20PermitUpgradeable, ERC20VotesUpgradeable, UUPSUpgradeable, OwnableUpgradeable {
+
     // ••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
     // Constants                                                  •
     // ••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
@@ -96,4 +98,5 @@ contract FloCoin is ERC20Upgradeable, ERC20PermitUpgradeable, ERC20VotesUpgradea
      * @param implementation_ address of the implementation
      */
     function _authorizeUpgrade(address implementation_) internal override onlyOwner {}
+
 }

@@ -8,6 +8,7 @@ import {FloCoinGovernor} from "../src/governor/FloCoinGovernor.sol";
 import {IVotes} from "@openzeppelin/contracts/governance/utils/IVotes.sol";
 
 contract GovScript is Script {
+
     // ••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
     // Coin Address                                               •
     // ••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
@@ -44,4 +45,5 @@ contract GovScript is Script {
 
         vm.stopBroadcast();
     }
+
 }
