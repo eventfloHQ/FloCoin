@@ -1,18 +1,22 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.13;
 
-import {VmSafe} from "forge-std/Vm.sol";
 import {FloCoin} from "../src/coin/FloCoin.sol";
-import {Test, console} from "forge-std/Test.sol";
+
 import {FloCoinProxy} from "../src/coin/FloCoinProxy.sol";
 import {FloCoinGovernor} from "../src/governor/FloCoinGovernor.sol";
-import {Strings} from "@openzeppelin/contracts/utils/Strings.sol";
-import {IERC20} from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
+
 import {Governor} from "@openzeppelin/contracts/governance/Governor.sol";
 import {IGovernor} from "@openzeppelin/contracts/governance/IGovernor.sol";
-import {GovernorVotesQuorumFraction} from "@openzeppelin/contracts/governance/extensions/GovernorVotesQuorumFraction.sol";
+import {GovernorVotesQuorumFraction} from
+    "@openzeppelin/contracts/governance/extensions/GovernorVotesQuorumFraction.sol";
+import {IERC20} from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
+import {Strings} from "@openzeppelin/contracts/utils/Strings.sol";
+import {Test, console} from "forge-std/Test.sol";
+import {VmSafe} from "forge-std/Vm.sol";
 
 contract GovTest is Test {
+
     using Strings for uint256;
 
     // ••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
@@ -35,8 +39,6 @@ contract GovTest is Test {
     // Vars                                                       •
     // ••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 
-    address[] public to;
-    uint256[] public amount;
     FloCoin public token;
     FloCoinProxy public tokenProxy;
     FloCoinGovernor public governor;
@@ -50,15 +52,14 @@ contract GovTest is Test {
     function setUp() public {
         vm.deal(david.addr, 10 ether);
 
-        to.push(david.addr);
-        amount.push(500_000 * 10 ** 18);
-
-        bytes memory data_ = abi.encodeWithSelector(FloCoin.initialize.selector, david.addr, to, amount);
+        bytes memory data_ = abi.encodeWithSelector(FloCoin.initialize.selector, david.addr, david.addr);
 
         vm.startPrank(david.addr);
         token = new FloCoin();
         tokenProxy = new FloCoinProxy(address(token), data_);
-        governor = new FloCoinGovernor(address(tokenProxy), VOTE_DELAY, VOTE_PERIOD, PROPOSAL_THRESHOLD, QUORUM_NUMERATOR, VOTE_THRESHOLD);
+        governor = new FloCoinGovernor(
+            address(tokenProxy), VOTE_DELAY, VOTE_PERIOD, PROPOSAL_THRESHOLD, QUORUM_NUMERATOR, VOTE_THRESHOLD
+        );
         vm.stopPrank();
     }
 
@@ -78,7 +79,8 @@ contract GovTest is Test {
         // propose
         vm.startPrank(david.addr);
         vm.warp(block.timestamp + 1 days);
-        uint256 proposalId = Governor(payable(address(governor))).propose(targets_, values_, calldatas_, "update quorum param");
+        uint256 proposalId =
+            Governor(payable(address(governor))).propose(targets_, values_, calldatas_, "update quorum param");
         console.log("proposalId:", proposalId.toString());
         vm.stopPrank();
     }
@@ -87,7 +89,11 @@ contract GovTest is Test {
     // Private Functions                                          •
     // ••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 
-    function _proposeParams() private view returns (address[] memory targets, uint256[] memory values, bytes[] memory calldatas) {
+    function _proposeParams()
+        private
+        view
+        returns (address[] memory targets, uint256[] memory values, bytes[] memory calldatas)
+    {
         // target
         targets = new address[](1);
         targets[0] = address(governor);
@@ -100,4 +106,5 @@ contract GovTest is Test {
         calldatas = new bytes[](1);
         calldatas[0] = abi.encodeWithSelector(GovernorVotesQuorumFraction.updateQuorumNumerator.selector, 5);
     }
+
 }

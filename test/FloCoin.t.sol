@@ -1,15 +1,17 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.13;
 
-import {VmSafe} from "forge-std/Vm.sol";
-import {SigUtil} from "./internal/SigUtil.sol";
 import {FloCoin} from "../src/coin/FloCoin.sol";
-import {Test, console} from "forge-std/Test.sol";
+
 import {FloCoinProxy} from "../src/coin/FloCoinProxy.sol";
+import {SigUtil} from "./internal/SigUtil.sol";
 import {UpgradeFloCoin} from "./internal/UpgradeFloCoin.sol";
 import {IERC20Permit} from "@openzeppelin/contracts/token/ERC20/extensions/IERC20Permit.sol";
+import {Test, console} from "forge-std/Test.sol";
+import {VmSafe} from "forge-std/Vm.sol";
 
 contract FloCoinTest is Test {
+
     // ••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
     // Constants                                                  •
     // ••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
@@ -21,8 +23,6 @@ contract FloCoinTest is Test {
     // Vars                                                       •
     // ••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 
-    address[] public to;
-    uint256[] public amount;
     FloCoin public flocoin;
     SigUtil public sigUtil;
     FloCoinProxy public flocoinProxy;
@@ -37,18 +37,13 @@ contract FloCoinTest is Test {
         vm.deal(david.addr, 1 ether);
         vm.deal(alice.addr, 1 ether);
 
-        to.push(david.addr);
-        to.push(alice.addr);
-        amount.push(500_000 * 10 ** 18);
-        amount.push(10_000_000 * 10 ** 18);
-
-        bytes memory data_ = abi.encodeWithSelector(FloCoin.initialize.selector, david.addr, to, amount);
+        bytes memory data_ = abi.encodeWithSelector(FloCoin.initialize.selector, david.addr, alice.addr);
 
         vm.startPrank(david.addr);
 
         flocoin = new FloCoin();
         flocoinProxy = new FloCoinProxy(address(flocoin), data_);
-        sigUtil = new SigUtil("FloCoin", "1", address(flocoinProxy));
+        sigUtil = new SigUtil(flocoin.PERMIT_NAME(), "1", address(flocoinProxy));
 
         vm.stopPrank();
     }
@@ -56,10 +51,6 @@ contract FloCoinTest is Test {
     // ••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
     // Test Functions                                             •
     // ••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-
-    function test_initialize() public view {
-        assertEq(FloCoin(address(flocoinProxy)).balanceOf(david.addr), 500_000 * 10 ** 18);
-    }
 
     function test_permit() public {
         uint256 nonce = block.timestamp;
@@ -89,4 +80,5 @@ contract FloCoinTest is Test {
 
         vm.stopPrank();
     }
+
 }

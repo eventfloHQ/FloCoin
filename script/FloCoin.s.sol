@@ -12,27 +12,19 @@ contract FloCoinScript is Script {
     // Constants                                                  •
     // ••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 
-    uint256 public constant TOTAL_SUPPLY = 15_000_000 * 10 ** 18;
-
-    // ••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-    // Vars                                                       •
-    // ••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-
-    address[] public to;
-    uint256[] public amount;
+    // TODO: change to the actual owner and to
+    address public constant OWNER = 0x0000000000000000000000000000000000000000;
+    address public constant TO = 0x0000000000000000000000000000000000000000;
 
     function setUp() public {}
 
     function run() public {
-        to.push(msg.sender);
-        amount.push(TOTAL_SUPPLY);
-
         vm.startBroadcast();
         FloCoin flocoin = new FloCoin();
         vm.stopBroadcast();
 
         vm.startBroadcast();
-        bytes memory data_ = abi.encodeWithSelector(FloCoin.initialize.selector, msg.sender, to, amount);
+        bytes memory data_ = abi.encodeWithSelector(FloCoin.initialize.selector, OWNER, TO);
         FloCoinProxy flocoinProxy = new FloCoinProxy(address(flocoin), data_);
         vm.stopBroadcast();
 

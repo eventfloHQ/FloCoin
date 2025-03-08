@@ -6,15 +6,25 @@ import {OwnableUpgradeable} from "@openzeppelin/contracts-upgradeable/access/Own
 import {VotesUpgradeable} from "@openzeppelin/contracts-upgradeable/governance/utils/VotesUpgradeable.sol";
 import {UUPSUpgradeable} from "@openzeppelin/contracts-upgradeable/proxy/utils/UUPSUpgradeable.sol";
 import {ERC20Upgradeable} from "@openzeppelin/contracts-upgradeable/token/ERC20/ERC20Upgradeable.sol";
-import {ERC20VotesUpgradeable} from "@openzeppelin/contracts-upgradeable/token/ERC20/extensions/ERC20VotesUpgradeable.sol";
+import {ERC20VotesUpgradeable} from
+    "@openzeppelin/contracts-upgradeable/token/ERC20/extensions/ERC20VotesUpgradeable.sol";
 import {ERC20PermitUpgradeable} from "contract-kits/token/ERC20PermitUpgradeable.sol";
 
-contract FloCoin is ERC20Upgradeable, ERC20PermitUpgradeable, ERC20VotesUpgradeable, UUPSUpgradeable, OwnableUpgradeable {
+contract FloCoin is
+    ERC20Upgradeable,
+    ERC20PermitUpgradeable,
+    ERC20VotesUpgradeable,
+    UUPSUpgradeable,
+    OwnableUpgradeable
+{
 
     // ••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
     // Constants                                                  •
     // ••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 
+    string public constant NAME = "flocoin";
+    string public constant SYMBOL = "$FloCo";
+    string public constant PERMIT_NAME = "FloCoin";
     uint256 public constant MAX_SUPPLY = 15_000_000 * 10 ** 18;
 
     // ••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
@@ -38,30 +48,15 @@ contract FloCoin is ERC20Upgradeable, ERC20PermitUpgradeable, ERC20VotesUpgradea
      *
      * @param owner_ owner of the contract
      * @param to_ address to mint the tokens to
-     * @param amount_ amount of tokens to mint
      */
-    function initialize(address owner_, address[] calldata to_, uint256[] calldata amount_) public initializer {
+    function initialize(address owner_, address to_) public initializer {
         __UUPSUpgradeable_init();
         __Ownable_init(owner_);
 
-        __ERC20Permit_init("FloCoin");
-        __ERC20_init("FloCoin", "FLOCO");
+        __ERC20Permit_init(PERMIT_NAME);
+        __ERC20_init(NAME, SYMBOL);
 
-        for (uint256 i = 0; i < to_.length; i++) {
-            _mint(to_[i], amount_[i]);
-        }
-    }
-
-    // ••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-    // External Functions                                         •
-    // ••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-
-    function mint(address to_, uint256 amount_) external onlyOwner {
-        if (to_ == address(0)) revert InvalidAddress();
-
-        if (totalSupply() + amount_ > MAX_SUPPLY) revert TotalSupplyExceeded();
-
-        _mint(to_, amount_);
+        _mint(to_, MAX_SUPPLY);
     }
 
     // ••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
@@ -88,7 +83,11 @@ contract FloCoin is ERC20Upgradeable, ERC20PermitUpgradeable, ERC20VotesUpgradea
      * @param to address of the to
      * @param value value of the transfer
      */
-    function _update(address from, address to, uint256 value) internal virtual override(ERC20Upgradeable, ERC20VotesUpgradeable) {
+    function _update(address from, address to, uint256 value)
+        internal
+        virtual
+        override(ERC20Upgradeable, ERC20VotesUpgradeable)
+    {
         super._update(from, to, value);
     }
 
