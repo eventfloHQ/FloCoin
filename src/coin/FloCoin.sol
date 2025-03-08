@@ -23,7 +23,7 @@ contract FloCoin is
     // ••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
 
     string public constant NAME = "flocoin";
-    string public constant SYMBOL = "$FloCo";
+    string public constant SYMBOL = "FloCo";
     string public constant PERMIT_NAME = "FloCoin";
     uint256 public constant MAX_SUPPLY = 15_000_000 * 10 ** 18;
 
