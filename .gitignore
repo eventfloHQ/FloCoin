@@ -18,3 +18,6 @@ lib/
 dependencies/
 node_modules/
 snapshots/
+
+# Cursor Folder
+.cursor/

@@ -4,7 +4,7 @@ out = "out"
 libs = ["dependencies"]
 
 [dependencies]
-forge-std = "1.9.4"
+forge-std = "1.9.6"
 "@openzeppelin-contracts" = "5.1.0"
 "@openzeppelin-contracts-upgradeable" = "5.1.0"
-contract-kits = { version = "0.0.1", git = "git@github.com:Uranuslab/contract-kits.git", rev = "9d7f2f9867906bf042afdea9c94a151a7dd91897" }
+contract-kits = { version = "0.0.1", git = "git@github.com:Uranuslab/contract-kits.git", rev = "8bb9fa3d42cc63a22b3b2a8cd972260d83fa1857" }
